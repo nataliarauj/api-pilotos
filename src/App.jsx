@@ -1,77 +1,115 @@
-import React, { useState } from "react";
-import CardAtleta from "./components/CardAtleta";
+import { useState } from "react";
+import axios from "axios";
+import CardPiloto from "./components/CardPiloto";
 
-function App() {
-  const [driverName, setDriverName] = useState("");  
-  const [piloto, setPiloto] = useState(null);        
-  const [erro, setErro] = useState("");              
-  const [favoritos, setFavoritos] = useState([]);
+const App = () => {
+  const [pilotos, setPilotos] = useState([]); 
+  const [favoritos, setFavoritos] = useState([]); 
+  const [searchTerm, setSearchTerm] = useState(""); 
 
-//Função de busca
-  const buscarPiloto = async () => {
-    if (!driverName) {
-      setErro("Por favor, insira um nome de piloto.");
-      return;
-    }
-  
+ 
+  const fetchPilotos = async (nome) => {
     try {
-      const response = await fetch(`https://ergast.com/api/f1/drivers.json`);
-      const data = await response.json();
-  
-      const pilotoEncontrado = data.MRData.DriverTable.Drivers.find((driver) => {
-        const nomeCompleto = `${driver.givenName} ${driver.familyName}`.toLowerCase();
-        return nomeCompleto.includes(driverName.toLowerCase());
+      const response = await axios.get("https://v1.formula-1.api-sports.io/drivers", {
+        headers: {
+          "x-rapidapi-key": "913b3caecdbfca7b9472150855f3f9ee", 
+          "x-rapidapi-host": "v1.formula-1.api-sports.io",
+        },
+        params: {
+          search: nome, 
+        },
       });
-  
-      if (pilotoEncontrado) {
-        setPiloto(pilotoEncontrado);
-        setErro("");
-      } else {
-        setPiloto(null);
-        setErro("Nenhum piloto encontrado com esse nome.");
-      }
+
+      const dadosPilotos = response.data.response;
+
+     
+      const pilotosNaoFavoritos = dadosPilotos.filter(
+        (piloto) => !favoritos.some((fav) => fav.driverId === piloto.driverId)
+      );
+
+      setPilotos(pilotosNaoFavoritos);
     } catch (error) {
-      console.error("Erro ao buscar piloto:", error);
-      setErro("Ocorreu um erro ao buscar os dados do piloto.");
+      console.error("Erro ao buscar os pilotos:", error);
     }
   };
-  
 
-//Adicionar aos favoritos
-  const adicionarFavorito = () => {
-    if (piloto && !favoritos.some((fav) => fav.driverId === piloto.driverId)) {
-      setFavoritos([...favoritos, piloto]);
+  
+  const handleInputChange = (e) => {
+    setSearchTerm(e.target.value); 
+  };
+
+  
+  const pesquisarPilotos = () => {
+    if (searchTerm.trim() === "") return; 
+
+   
+    setPilotos([]); 
+    fetchPilotos(searchTerm); 
+    setSearchTerm(""); 
+  };
+
+
+  const adicionarAosFavoritos = (piloto) => {
+
+    if (!favoritos.some((fav) => fav.driverId === piloto.driverId)) {
+      setFavoritos((prevFavoritos) => [...prevFavoritos, piloto]);
+      setPilotos((prevPilotos) =>
+        prevPilotos.filter((piloto) => piloto.driverId !== piloto.driverId)
+      );
     }
+  };
+
+
+  const removerFavorito = (piloto) => {
+    setFavoritos(favoritos.filter((favorito) => favorito.driverId !== piloto.driverId));
   };
 
   return (
     <div>
-      <h1>Pesquisa de Piloto de F1</h1>
+      <h1>Pesquisa de Pilotos</h1>
       <input
         type="text"
-        name="search-piloto"
-        value={driverName}
-        onChange={(e) => setDriverName(e.target.value)}
+        value={searchTerm}
         placeholder="Digite o nome do piloto"
+        onChange={handleInputChange} 
+        onKeyPress={(e) => e.key === "Enter" && pesquisarPilotos()} 
       />
-      <button onClick={buscarPiloto}>Buscar Piloto</button>
+      <button onClick={pesquisarPilotos}>Pesquisar</button>
 
-      {erro && <p>{erro}</p>}
-
-      {piloto && (
-        <CardAtleta piloto={piloto} adicionarFavorito={adicionarFavorito} />
+      {}
+      {pilotos.length > 0 && (
+        <div>
+          <h2>Resultados da Pesquisa</h2>
+          {pilotos.map((piloto) => (
+            <CardPiloto
+              key={piloto.driverId}
+              piloto={piloto}
+              adicionarAosFavoritos={adicionarAosFavoritos}
+              favoritos={favoritos}
+              removerFavorito={removerFavorito} 
+            />
+          ))}
+        </div>
       )}
 
       <h2>Favoritos</h2>
-      <ul>
-        {favoritos.map((fav) => (
-          <li key={fav.driverId}>
-            {fav.givenName} {fav.familyName}
-          </li>
-        ))}
-      </ul>
+      <div>
+        {favoritos.length === 0 ? (
+          <p>Nenhum piloto adicionado aos favoritos.</p>
+        ) : (
+          favoritos.map((piloto) => (
+            <CardPiloto
+              key={piloto.driverId}
+              piloto={piloto}
+              adicionarAosFavoritos={adicionarAosFavoritos}
+              favoritos={favoritos}
+              removerFavorito={removerFavorito} 
+            />
+          ))
+        )}
+      </div>
     </div>
   );
-}
+};
 
 export default App;
