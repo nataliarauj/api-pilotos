@@ -6,10 +6,11 @@ const App = () => {
   const [pilotos, setPilotos] = useState([]); 
   const [favoritos, setFavoritos] = useState([]); 
   const [searchTerm, setSearchTerm] = useState(""); 
+  const [loading, setLoading] = useState(false); 
 
- 
   const fetchPilotos = async (nome) => {
     try {
+      setLoading(true); 
       const response = await axios.get("https://v1.formula-1.api-sports.io/drivers", {
         headers: {
           "x-rapidapi-key": "70d6ef901f84a9596c55ba95b131f50a", 
@@ -30,35 +31,28 @@ const App = () => {
       setPilotos(pilotosNaoFavoritos);
     } catch (error) {
       console.error("Erro ao buscar os pilotos:", error);
+    } finally {
+      setLoading(false); 
     }
   };
 
-  
   const handleInputChange = (e) => {
     setSearchTerm(e.target.value); 
   };
 
-  
   const pesquisarPilotos = () => {
     if (searchTerm.trim() === "") return; 
-
-   
-    setPilotos([]); 
-    fetchPilotos(searchTerm); 
-    setSearchTerm(""); 
+    fetchPilotos(searchTerm); // Busca dados sem limpar os pilotos atuais
   };
 
-
   const adicionarAosFavoritos = (piloto) => {
-
     if (!favoritos.some((fav) => fav.driverId === piloto.driverId)) {
       setFavoritos((prevFavoritos) => [...prevFavoritos, piloto]);
       setPilotos((prevPilotos) =>
-        prevPilotos.filter((piloto) => piloto.driverId !== piloto.driverId)
+        prevPilotos.filter((p) => p.driverId !== piloto.driverId)
       );
     }
   };
-
 
   const removerFavorito = (piloto) => {
     setFavoritos(favoritos.filter((favorito) => favorito.driverId !== piloto.driverId));
@@ -74,9 +68,10 @@ const App = () => {
         onChange={handleInputChange} 
         onKeyPress={(e) => e.key === "Enter" && pesquisarPilotos()} 
       />
-      <button onClick={pesquisarPilotos}>Pesquisar</button>
+      <button onClick={pesquisarPilotos} disabled={loading}>
+        {loading ? "Pesquisando..." : "Pesquisar"}
+      </button>
 
-      {}
       {pilotos.length > 0 && (
         <div>
           <h2>Resultados da Pesquisa</h2>
