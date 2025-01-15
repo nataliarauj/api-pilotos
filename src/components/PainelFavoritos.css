@@ -1,0 +1,62 @@
+.favorites {
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+}
+  
+.favorites h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.favorites-container {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: space-around; 
+    gap: 20px;
+}
+
+.card-favorite {
+    background-color: #1a1a1a;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 250px;
+    text-align: center;
+    padding: 20px;
+    transition: transform 0.3s ease;
+}
+
+.card-favorito h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.img-piloto {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover; 
+    margin-bottom: 10px;
+    border: 3px solid #fff;
+}
+
+
+.btn-delete {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+.btn-delete :hover {
+    background-color: #e53935;
+}
+
+.btn-delete:focus {
+    outline: none;
+}

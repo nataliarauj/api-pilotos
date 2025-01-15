@@ -1,39 +1,35 @@
 import React from "react";
+import "./PainelFavoritos.css";
 
 const PainelFavoritos = ({ favoritos, removerFavorito }) => {
   return (
-    <div>
-      <h2>Favoritos</h2>
+    <div className="favorites">
+      <h1>Pilotos Favoritos</h1>
       {favoritos.length === 0 ? (
         <p>Nenhum piloto adicionado aos favoritos.</p>
       ) : (
-        favoritos.map((piloto) => (
-          <div key={piloto.driverId} style={{ marginBottom: "15px" }}>
-            <h3>{piloto.name}</h3>
-            <img
-              src={piloto.image || "default.jpg"}
-              alt={`Foto de ${piloto.name}`}
-              className="img-piloto"
-              style={{ width: "100px", height: "auto", borderRadius: "8px" }}
-            />
-            <button
-              onClick={() => removerFavorito(piloto)}
-              style={{
-                marginLeft: "10px",
-                padding: "5px 10px",
-                backgroundColor: "#f44336",
-                color: "white",
-                border: "none",
-                borderRadius: "5px",
-              }}
-            >
-              Remover dos Favoritos
-            </button>
-          </div>
-        ))
+        <div className="favorites-container">
+          {favoritos.map((piloto) => (
+            <div key={piloto.driverId} className="card-favorite">
+              <h3>{piloto.name}</h3>
+              <img
+                src={piloto.image || "default.jpg"}
+                alt={`Foto de ${piloto.name}`}
+                className="img-piloto"
+              />
+              <button
+                onClick={() => removerFavorito(piloto)}
+                className="btn-delete"
+              >
+                Remover dos Favoritos
+              </button>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );
 };
+
 
 export default PainelFavoritos;
