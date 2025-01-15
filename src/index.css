@@ -25,13 +25,14 @@ a:hover {
 body {
   margin: 0;
   display: flex;
+  flex-direction: column;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: 2.5em;
   line-height: 1.1;
 }
 
@@ -45,10 +46,17 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  margin-top: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  align-self: center;
 }
+
 button:hover {
-  border-color: #646cff;
+  border-color: #ccc;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
@@ -65,4 +73,15 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+/* Input */
+.input-pilot-name {
+  width: 90%;
+  max-width: 500px;
+  min-width: 200px;
+  padding: 12px;
+  font-size: 1rem; 
+  border: 1px solid #ddd;
+  border-radius: 6px;
 }
