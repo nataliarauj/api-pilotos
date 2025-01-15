@@ -45,21 +45,26 @@ const App = () => {
   // Pesquisa pilotos ao clicar no botão
   const pesquisarPilotos = () => {
     if (searchTerm.trim() !== "") {
-      fetchPilotos(searchTerm);  // Realiza a busca
+      fetchPilotos(searchTerm); 
     }
   };
 
   return (
     <div>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        <img src="./src/assets/img/icon.png" alt="Ícone Bandeira" width={100} />
+      </div>
       <h1>Pesquisa de Pilotos</h1>
       <input
+        className="input-pilot-name"
         type="text"
+        name="search-pilot"
         value={searchTerm}
         placeholder="Digite o nome do piloto"
         onChange={(e) => setSearchTerm(e.target.value)}  // Atualiza o termo de pesquisa
         onKeyPress={(e) => e.key === "Enter" && pesquisarPilotos()}  // Pesquisa ao pressionar Enter
       />
-      <button onClick={pesquisarPilotos} disabled={loading}>
+      <button class="btn-search" onClick={pesquisarPilotos} disabled={loading}>
         {loading ? "Pesquisando..." : "Pesquisar"}
       </button>
 

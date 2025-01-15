@@ -1,13 +1,15 @@
 .card-container {
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     gap: 20px;
-    justify-content: space-around; /* Centraliza os cards horizontalmente */
+    justify-content: space-around;
     padding: 1rem;
+
   }
   
-  .card {
-    width: 300px; 
+.card {
+    width: 250px; 
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
     background-color: #1a1a1a;
@@ -15,40 +17,40 @@
     padding: 2rem;
     text-align: center;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
-  }
-  
-  .card:hover {
+}
+
+.card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 16px rgba(71, 71, 71, 0.2);
-  }
-  
-  .card img {
+}
+
+.card img {
     width: 96px;
     height: 96px;
     border-radius: 50%;
     margin-bottom: 1px;
     border: 4px solid #fff;
-  }
-  
-  .card h3 {
+}
+
+.card h3 {
     font-size: 1.25rem;
     font-weight: bold;
     color: #fff;
     margin-bottom: 1px;
-  }
-  
-  .card p {
+}
+
+.card p {
     color: whitesmoke;
     font-size: 1rem;
-    margin-bottom: 0.5px;
-  }
-  
-  .card button {
+    margin-bottom: -10px;
+    text-align: center;
+}
+
+.card button {
     background-color: red;
     color: white;
-    padding: 0.75rem 1.25rem;
+    padding: 8px;
     border-radius: 5px;
-    margin-top: 1.25rem;
     border: none;
     cursor: pointer;
-  }
+}
