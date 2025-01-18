@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import "./CardPiloto.css";
 
 const CardPiloto = ({ piloto, adicionarAosFavoritos, favoritos }) => {
+  // Controla se o piloto está nos favoritos
   const [isFavorito, setIsFavorito] = useState(false);
 
+  // useEffect é usado para atualizar o estado 'isFavorito' sempre que a lista de favoritos ou o piloto mudar
   useEffect(() => {
     setIsFavorito(favoritos.some((fav) => fav.driverId === piloto.driverId));
   }, [favoritos, piloto.driverId]);
@@ -21,8 +23,10 @@ const CardPiloto = ({ piloto, adicionarAosFavoritos, favoritos }) => {
         <p className="text-gray-600">Nacionalidade: {piloto.nationality}</p>
         <p className="text-gray-600">Pódios: {piloto.podiums}</p>
 
-        <button onClick={() => adicionarAosFavoritos(piloto)}>
-          Adicionar aos Favoritos
+        <button className="btn-fav" onClick={() => {
+          adicionarAosFavoritos(piloto);
+        }}>
+          <i className="fas fa-heart"></i>
         </button>
       </div>
     </div>
