@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import CardPiloto from "./components/CardPiloto";
 import PainelFavoritos from "./components/PainelFavoritos";
@@ -22,7 +22,7 @@ const App = () => {
       });
 
       const dadosPilotos = response.data.response || [];
-      setTodosPilotos(dadosPilotos);  // Armazenar todos os pilotos encontrados na pesquisa
+      setTodosPilotos(dadosPilotos);  // Armazena todos os pilotos encontrados na pesquisa
     } catch (error) {
       console.error("Erro ao buscar os pilotos:", error);
     } finally {
@@ -32,12 +32,15 @@ const App = () => {
 
   // Adiciona um piloto aos favoritos
   const adicionarAosFavoritos = (piloto) => {
-    if (!favoritos.some((fav) => fav.driverId === piloto.driverId)) {
-      setFavoritos([...favoritos, piloto]);  // Adiciona aos favoritos
-    }
+    setFavoritos((prevFavoritos) => {
+      if (!prevFavoritos.some((fav) => fav.driverId === piloto.driverId)) {
+        return [...prevFavoritos, piloto];  // Adiciona ao estado atualizado
+      }
+      return prevFavoritos;  // Não adiciona pilotos repetidos
+    });
   };
 
-  // Remove um piloto dos favoritos
+  // Remove o piloto dos favoritos
   const removerFavorito = (piloto) => {
     setFavoritos(favoritos.filter((fav) => fav.driverId !== piloto.driverId));  // Remove dos favoritos
   };
@@ -45,42 +48,51 @@ const App = () => {
   // Pesquisa pilotos ao clicar no botão
   const pesquisarPilotos = () => {
     if (searchTerm.trim() !== "") {
-      fetchPilotos(searchTerm); 
+      fetchPilotos(searchTerm);
     }
   };
 
+  // useEffect para monitorar favoritos (verificação de atualizações)
+  useEffect(() => {
+    console.log("Favoritos atualizados:", favoritos);
+  }, [favoritos]);
+
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-        <img src="./src/assets/img/icon.png" alt="Ícone Bandeira" width={100} />
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '20px' }}>
+        <img src="./src/assets/img/icon.png" alt="Ícone Bandeira" width={100} style={{ marginBottom: '-30px' }} />
       </div>
       <h1>Pesquisa de Pilotos</h1>
-      <input
-        className="input-pilot-name"
-        type="text"
-        name="search-pilot"
-        value={searchTerm}
-        placeholder="Digite o nome do piloto"
-        onChange={(e) => setSearchTerm(e.target.value)}  // Atualiza o termo de pesquisa
-        onKeyPress={(e) => e.key === "Enter" && pesquisarPilotos()}  // Pesquisa ao pressionar Enter
-      />
-      <button class="btn-search" onClick={pesquisarPilotos} disabled={loading}>
-        {loading ? "Pesquisando..." : "Pesquisar"}
-      </button>
+      <div className="search-container">
+        <input
+          className="input-pilot-name"
+          type="text"
+          name="search-pilot"
+          value={searchTerm}
+          placeholder="Digite o nome do piloto"
+          onChange={(e) => setSearchTerm(e.target.value)} 
+          onKeyPress={(e) => e.key === "Enter" && pesquisarPilotos()}
+        />
+        <button className="btn-search" onClick={pesquisarPilotos} disabled={loading}>
+          {loading ? "..." : <i class="fas fa-search"></i>}
+        </button>
+      </div>
+      
 
       {/* Resultados da Pesquisa */}
       {todosPilotos.length > 0 ? (
         <div>
-          <h2>Resultados da Pesquisa</h2>
-          {todosPilotos.map((piloto) => (
-            <CardPiloto
-              key={piloto.driverId}
-              piloto={piloto}
-              adicionarAosFavoritos={adicionarAosFavoritos}
-              favoritos={favoritos}
-              removerFavorito={removerFavorito}
-            />
-          ))}
+          <div className="card-container">
+            {todosPilotos.map((piloto) => (
+              <CardPiloto
+                key={piloto.driverId}
+                piloto={piloto}
+                adicionarAosFavoritos={adicionarAosFavoritos}
+                favoritos={favoritos}
+                removerFavorito={removerFavorito}
+              />
+            ))}
+          </div>
         </div>
       ) : (
         <p>{loading ? "Carregando..." : "Nenhum piloto encontrado."}</p>

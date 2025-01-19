@@ -1,11 +1,10 @@
 .favorites {
     padding: 20px;
-    font-family: 'Arial', sans-serif;
 }
   
 .favorites h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 2em;
+    line-height: 1.1;
     text-align: center;
 }
 
@@ -20,43 +19,35 @@
     background-color: #1a1a1a;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    width: 250px;
+    width: 200px;
     text-align: center;
     padding: 20px;
-    transition: transform 0.3s ease;
 }
 
-.card-favorito h3 {
+.card-favorite h3 {
     font-size: 18px;
     margin-bottom: 10px;
 }
 
 .img-piloto {
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
     border-radius: 50%;
     object-fit: cover; 
     margin-bottom: 10px;
     border: 3px solid #fff;
 }
 
-
-.btn-delete {
-    background-color: #f44336;
-    color: white;
-    border: none;
+.favorites-container .btn-delete {
+    display: block;
+    margin: 10px auto 0;
+    background-color: #f02e0e;
+    padding: 5px 10px;
+    font-size: 14px;  
     border-radius: 5px;
-    padding: 8px 15px;
+    border: none;
     cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s;
-    margin-top: 10px;
+    width: auto;        
+    height: auto;
 }
 
-.btn-delete :hover {
-    background-color: #e53935;
-}
-
-.btn-delete:focus {
-    outline: none;
-}

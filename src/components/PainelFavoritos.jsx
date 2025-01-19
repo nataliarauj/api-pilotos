@@ -6,7 +6,9 @@ const PainelFavoritos = ({ favoritos, removerFavorito }) => {
     <div className="favorites">
       <h1>Pilotos Favoritos</h1>
       {favoritos.length === 0 ? (
-        <p>Nenhum piloto adicionado aos favoritos.</p>
+        <p style={{ textAlign: "center", color: "#888" }}>
+          <i className="fas fa-heart"></i> Nenhum piloto adicionado aos favoritos.
+        </p>
       ) : (
         <div className="favorites-container">
           {favoritos.map((piloto) => (
@@ -19,9 +21,8 @@ const PainelFavoritos = ({ favoritos, removerFavorito }) => {
               />
               <button
                 onClick={() => removerFavorito(piloto)}
-                className="btn-delete"
-              >
-                Remover dos Favoritos
+                className="btn-delete">
+                <i className="fas fa-heart-broken"></i>
               </button>
             </div>
           ))}

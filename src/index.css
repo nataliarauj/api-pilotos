@@ -13,15 +13,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
 body {
   margin: 0;
   display: flex;
@@ -34,54 +25,33 @@ body {
 h1 {
   font-size: 2.5em;
   line-height: 1.1;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-button {
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  gap: 10px; 
+  width: 100%;
+}
+
+.search-container .btn-search {
   border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #f02e0e;
   cursor: pointer;
-  transition: border-color 0.25s;
-  margin-top: 20px;
   display: block;
   margin-left: auto;
   margin-right: auto;
-  align-self: center;
+  padding: 12px 20px; 
+  font-size: 1rem;
 }
 
-button:hover {
-  border-color: #ccc;
-}
-
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
-
-/* Input */
 .input-pilot-name {
-  width: 90%;
-  max-width: 500px;
-  min-width: 200px;
+  flex-grow: 1;
   padding: 12px;
-  font-size: 1rem; 
+  font-size: 1rem;
   border: 1px solid #ddd;
   border-radius: 6px;
 }
