@@ -9,6 +9,11 @@ const App = () => {
   const [searchTerm, setSearchTerm] = useState("");  // Termo de pesquisa
   const [loading, setLoading] = useState(false);  // Indicador de carregamento
 
+  const gerarIdUnico = (piloto) => {
+    return `${piloto.name}-${piloto.nationality}`.toLowerCase().replace(/\s+/g, "-");
+  };
+  
+  
   // Função para buscar pilotos
   const fetchPilotos = async (nome) => {
     try {
@@ -22,7 +27,12 @@ const App = () => {
       });
 
       const dadosPilotos = response.data.response || [];
-      setTodosPilotos(dadosPilotos);  // Armazena todos os pilotos encontrados na pesquisa
+      const pilotosComId = dadosPilotos.map((piloto) => ({
+        ...piloto,
+        driverId: gerarIdUnico(piloto), // Adiciona um ID único
+      }));
+
+      setTodosPilotos(pilotosComId);  // Armazena todos os pilotos encontrados na pesquisa
     } catch (error) {
       console.error("Erro ao buscar os pilotos:", error);
     } finally {
@@ -34,16 +44,18 @@ const App = () => {
   const adicionarAosFavoritos = (piloto) => {
     setFavoritos((prevFavoritos) => {
       if (!prevFavoritos.some((fav) => fav.driverId === piloto.driverId)) {
-        return [...prevFavoritos, piloto];  // Adiciona ao estado atualizado
+        return [...prevFavoritos, piloto];
       }
-      return prevFavoritos;  // Não adiciona pilotos repetidos
+      return prevFavoritos;
     });
   };
-
-  // Remove o piloto dos favoritos
+  
   const removerFavorito = (piloto) => {
-    setFavoritos(favoritos.filter((fav) => fav.driverId !== piloto.driverId));  // Remove dos favoritos
+    setFavoritos((prevFavoritos) =>
+      prevFavoritos.filter((fav) => fav.driverId !== piloto.driverId)
+    );
   };
+  
 
   // Pesquisa pilotos ao clicar no botão
   const pesquisarPilotos = () => {
@@ -95,7 +107,9 @@ const App = () => {
           </div>
         </div>
       ) : (
-        <p>{loading ? "Carregando..." : "Nenhum piloto encontrado."}</p>
+        <p style={{ textAlign: "center", color: "#888" }}>
+          <i className="fas fa-x"></i> Nenhum piloto encontrado.
+        </p>
       )}
 
       {/* Lista de Favoritos */}
