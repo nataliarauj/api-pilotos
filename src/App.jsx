@@ -70,9 +70,9 @@ const App = () => {
   }, [favoritos]);
 
   return (
-    <div>
+    <div class='main'>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '20px' }}>
-        <img src="./src/assets/img/icon.png" alt="Ícone Bandeira" width={100} style={{ marginBottom: '-30px' }} />
+        <img src="../src/assets/img/icon.png" alt="Ícone Bandeira" width={100} style={{ marginBottom: '-30px' }} />
       </div>
       <h1>Pesquisa de Pilotos</h1>
       <div className="search-container">
