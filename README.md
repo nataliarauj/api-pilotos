@@ -13,7 +13,7 @@ Este é um projeto ReactJS que permite pesquisar pilotos de Fórmula 1, visualiz
 
 - **ReactJS**: Biblioteca para construção da interface do usuário.
 - **Axios**: Para requisições HTTP.
-- **API-Sports**: API utilizada para obter dados dos pilotos de Fórmula 1.
+- **API-Sports**: API utilizada para obter dados dos pilotos de Fórmula 1. (https://dashboard.api-football.com/)
 
 ## Requisitos
 
